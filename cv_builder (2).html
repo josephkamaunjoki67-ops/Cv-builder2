@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CV Builder — Jose Online Cyber Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#1A6B72;--teal-dark:#124d52;--teal-light:#E8F4F5;--teal-mid:#2a8a93;
+  --gold:#C89B3C;--dark:#0f1f21;--mid:#3a4a4c;--light:#6b7f82;
+  --bg:#f8fbfb;--white:#fff;--border:#d4e8ea;--red:#e53e3e;--green:#25a244;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);line-height:1.6;min-height:100vh}
+
+/* NAV */
+nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:white;font-weight:700}
+.nav-logo span{color:var(--gold)}
+.nav-back{color:rgba(255,255,255,0.6);font-size:0.85rem;text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:white}
+
+/* STEPS BAR */
+.steps-bar{background:white;border-bottom:1px solid var(--border);padding:16px 5%;display:flex;gap:0;overflow-x:auto}
+.step{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:500;color:var(--light);transition:all 0.3s}
+.step-label{font-size:0.8rem;color:var(--light);font-weight:400;white-space:nowrap;transition:color 0.3s}
+.step.active .step-num{background:var(--teal);border-color:var(--teal);color:white}
+.step.active .step-label{color:var(--teal);font-weight:500}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:white}
+.step.done .step-label{color:var(--green)}
+.step-divider{width:32px;height:1px;background:var(--border);margin:0 4px;flex-shrink:0;align-self:center}
+
+/* MAIN */
+.container{max-width:860px;margin:0 auto;padding:40px 5% 80px}
+.page{display:none}.page.active{display:block}
+
+/* CARDS */
+.card{background:white;border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.5rem}
+.card-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);margin-bottom:0.3rem}
+.card-sub{font-size:0.85rem;color:var(--light);margin-bottom:1.5rem}
+.section-divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+
+/* FORM */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group.full{grid-column:1/-1}
+label{display:block;font-size:0.82rem;font-weight:500;color:var(--mid);margin-bottom:5px}
+label span{color:var(--red);margin-left:2px}
+input,textarea,select{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:0.9rem;font-family:'DM Sans',sans-serif;color:var(--dark);background:white;outline:none;transition:border-color 0.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--teal)}
+textarea{resize:vertical;min-height:80px}
+.add-btn{background:var(--teal-light);color:var(--teal);border:1px dashed var(--teal);border-radius:8px;padding:8px 16px;font-size:0.82rem;font-weight:500;cursor:pointer;width:100%;margin-top:0.5rem;transition:background 0.2s}
+.add-btn:hover{background:#d0eaec}
+.remove-btn{background:none;border:none;color:var(--light);cursor:pointer;font-size:0.8rem;padding:4px 8px;border-radius:4px;transition:color 0.2s}
+.remove-btn:hover{color:var(--red)}
+.entry-block{border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:0.75rem;position:relative}
+.entry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem}
+.entry-title{font-size:0.85rem;font-weight:500;color:var(--teal)}
+
+/* BUTTONS */
+.btn-primary{background:var(--teal);color:white;border:none;border-radius:50px;padding:13px 32px;font-size:0.95rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s,transform 0.2s}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn-secondary{background:white;color:var(--teal);border:1px solid var(--teal);border-radius:50px;padding:12px 28px;font-size:0.9rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s}
+.btn-secondary:hover{background:var(--teal-light)}
+.btn-row{display:flex;gap:1rem;justify-content:flex-end;margin-top:1.5rem;flex-wrap:wrap}
+
+/* PAYMENT */
+.payment-box{background:var(--teal-light);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.payment-box h3{font-size:1rem;font-weight:500;color:var(--teal-dark);margin-bottom:1rem}
+.mpesa-option{background:white;border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:0.75rem}
+.mpesa-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:4px}
+.mpesa-value{font-size:1.1rem;font-weight:500;color:var(--dark)}
+.mpesa-sub{font-size:0.8rem;color:var(--light);margin-top:2px}
+.amount-badge{display:inline-block;background:var(--gold);color:white;border-radius:50px;padding:6px 18px;font-weight:500;font-size:0.95rem;margin-bottom:1.2rem}
+.confirm-box{background:#fff8e6;border:1px solid #f0d080;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.confirm-box h3{color:#8a6000;font-size:0.95rem;margin-bottom:0.5rem}
+.confirm-box p{color:#7a5500;font-size:0.83rem;margin-bottom:1rem}
+
+/* APPROVAL */
+.approval-waiting{text-align:center;padding:2rem 0}
+.approval-waiting .icon{font-size:3rem;margin-bottom:1rem}
+.approval-waiting h3{font-size:1.2rem;color:var(--dark);margin-bottom:0.5rem}
+.approval-waiting p{color:var(--light);font-size:0.9rem;max-width:400px;margin:0 auto 1.5rem}
+.code-input-row{display:flex;gap:0.75rem;max-width:360px;margin:0 auto}
+.code-input-row input{text-align:center;font-size:1.1rem;font-weight:500;letter-spacing:3px;text-transform:uppercase}
+.error-msg{color:var(--red);font-size:0.82rem;margin-top:8px;text-align:center;display:none}
+
+/* SUCCESS */
+.success-page{text-align:center;padding:3rem 0}
+.success-icon{width:80px;height:80px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem}
+.success-page h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--dark);margin-bottom:0.5rem}
+.success-page p{color:var(--light);margin-bottom:2rem}
+.download-btn{background:var(--green);color:white;border:none;border-radius:50px;padding:15px 40px;font-size:1rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s,transform 0.2s;text-decoration:none;display:inline-block}
+.download-btn:hover{background:#1e8a38;transform:translateY(-2px)}
+
+/* PREVIEW BADGE */
+.price-note{font-size:0.82rem;color:var(--light);margin-top:0.5rem}
+
+@media(max-width:600px){.form-row{grid-template-columns:1fr}.btn-row{justify-content:stretch}.btn-primary,.btn-secondary{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Jose Online<span> Cyber Services</span></div>
+  <a href="joseph_services_website.html" class="nav-back">← Back to Website</a>
+</nav>
+
+<div class="steps-bar" id="stepsBar">
+  <div class="step active" id="s1"><div class="step-num">1</div><div class="step-label">Personal Info</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s2"><div class="step-num">2</div><div class="step-label">Career Objective</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s3"><div class="step-num">3</div><div class="step-label">Experience</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s4"><div class="step-num">4</div><div class="step-label">Education & Skills</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s5"><div class="step-num">5</div><div class="step-label">Referees</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s6"><div class="step-num">6</div><div class="step-label">Payment</div></div>
+  <div class="step-divider"></div>
+  <div class="step" id="s7"><div class="step-num">7</div><div class="step-label">Download</div></div>
+</div>
+
+<div class="container">
+
+  <!-- PAGE 1: PERSONAL INFO -->
+  <div class="page active" id="page1">
+    <div class="card">
+      <div class="card-title">Personal Information</div>
+      <div class="card-sub">Enter your contact and personal details</div>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name <span>*</span></label><input id="fullName" type="text" placeholder="e.g. John Kamau Mwangi"/></div>
+        <div class="form-group"><label>Job Title / Profession <span>*</span></label><input id="jobTitle" type="text" placeholder="e.g. Sales Executive"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Phone Number <span>*</span></label><input id="phone" type="tel" placeholder="e.g. 0712 345 678"/></div>
+        <div class="form-group"><label>Email Address</label><input id="email" type="email" placeholder="e.g. john@email.com"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Location <span>*</span></label><input id="location" type="text" placeholder="e.g. Nairobi, Kenya"/></div>
+        <div class="form-group"><label>LinkedIn / Portfolio URL</label><input id="linkedin" type="text" placeholder="Optional"/></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="goTo(2)">Next: Career Objective →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CAREER OBJECTIVE -->
+  <div class="page" id="page2">
+    <div class="card">
+      <div class="card-title">Career Objective</div>
+      <div class="card-sub">Write a short summary of who you are and what you're looking for (3–5 sentences)</div>
+      <div class="form-group">
+        <label>Career Objective / Professional Profile <span>*</span></label>
+        <textarea id="objective" rows="6" placeholder="e.g. Results-driven sales professional with 3 years of experience in FMCG. Passionate about building lasting client relationships and exceeding targets. Looking to bring my skills to a dynamic team..."></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(1)">← Back</button>
+      <button class="btn-primary" onclick="goTo(3)">Next: Experience →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: EXPERIENCE -->
+  <div class="page" id="page3">
+    <div class="card">
+      <div class="card-title">Work Experience</div>
+      <div class="card-sub">Add your work history, starting with the most recent</div>
+      <div id="expList"></div>
+      <button class="add-btn" onclick="addExp()">+ Add Work Experience</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(2)">← Back</button>
+      <button class="btn-primary" onclick="goTo(4)">Next: Education & Skills →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4: EDUCATION & SKILLS -->
+  <div class="page" id="page4">
+    <div class="card">
+      <div class="card-title">Education</div>
+      <div class="card-sub">Add your academic qualifications</div>
+      <div id="eduList"></div>
+      <button class="add-btn" onclick="addEdu()">+ Add Education</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Skills & Certifications</div>
+      <div class="card-sub">List your key skills and any certifications you hold</div>
+      <div class="form-group">
+        <label>Key Skills <span>*</span></label>
+        <textarea id="skills" rows="3" placeholder="e.g. Customer Service, Microsoft Office, Cash Handling, Team Leadership, Communication..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Certifications (if any)</label>
+        <textarea id="certs" rows="3" placeholder="e.g. Certificate in Sales Management — KIM, 2023&#10;First Aid Certificate — Kenya Red Cross, 2022"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Languages</label>
+        <input id="languages" type="text" placeholder="e.g. English — Fluent, Kiswahili — Native"/>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(3)">← Back</button>
+      <button class="btn-primary" onclick="goTo(5)">Next: Referees →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5: REFEREES -->
+  <div class="page" id="page5">
+    <div class="card">
+      <div class="card-title">Referees</div>
+      <div class="card-sub">Add 2–3 professional referees</div>
+      <div id="refList"></div>
+      <button class="add-btn" onclick="addRef()">+ Add Referee</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(4)">← Back</button>
+      <button class="btn-primary" onclick="goTo(6)">Next: Payment →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 6: PAYMENT -->
+  <div class="page" id="page6">
+    <div class="card">
+      <div class="card-title">Complete Payment</div>
+      <div class="card-sub">Pay via M-Pesa to unlock your CV download</div>
+
+      <div style="text-align:center;margin-bottom:1.5rem">
+        <div class="amount-badge">KES 200 — CV Writing Service</div>
+        <div class="price-note">One-time payment. Your CV will be professionally formatted and ready to download.</div>
+      </div>
+
+      <div class="payment-box">
+        <h3>Choose your M-Pesa payment method:</h3>
+        <div class="mpesa-option">
+          <div class="mpesa-label">Option 1 — M-Pesa Till (Buy Goods)</div>
+          <div class="mpesa-value">Till Number: <strong>XXXXXXX</strong></div>
+          <div class="mpesa-sub">Go to M-Pesa → Lipa na M-Pesa → Buy Goods → Enter Till Number → Amount: 200</div>
+        </div>
+        <div class="mpesa-option">
+          <div class="mpesa-label">Option 2 — Send Money</div>
+          <div class="mpesa-value">Phone: <strong>0740 087 049</strong></div>
+          <div class="mpesa-sub">Go to M-Pesa → Send Money → Enter 0740 087 049 → Amount: 200</div>
+        </div>
+      </div>
+
+      <div class="confirm-box">
+        <h3>📋 Paste Your M-Pesa Confirmation Message</h3>
+        <p>After paying, copy the M-Pesa confirmation SMS you received and paste it below. Then click "Submit for Approval".</p>
+        <div class="form-group">
+          <label>M-Pesa Confirmation Message <span>*</span></label>
+          <textarea id="mpesaMsg" rows="4" placeholder="e.g. ABC123XYZ Confirmed. Ksh200.00 sent to JOSE ONLINE CYBER on 19/5/25 at 10:30 AM. New M-PESA balance is Ksh1,500.00..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Your Name (as it appears on M-Pesa) <span>*</span></label>
+          <input id="mpesaName" type="text" placeholder="e.g. John Kamau"/>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goTo(5)">← Back</button>
+        <button class="btn-primary" onclick="submitPayment()">Submit for Approval →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7: WAITING FOR APPROVAL -->
+  <div class="page" id="page7">
+    <div class="card">
+      <div class="approval-waiting">
+        <div class="icon">⏳</div>
+        <h3>Payment Submitted — Awaiting Approval</h3>
+        <p>Your payment details have been sent to Jose Online Cyber Services via WhatsApp. Once verified, you will receive an <strong>approval code</strong> on your phone or WhatsApp.</p>
+        <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--light)">This usually takes a few minutes during business hours.</p>
+
+        <hr class="section-divider" style="max-width:400px;margin:1.5rem auto"/>
+
+        <div style="max-width:360px;margin:0 auto">
+          <label style="display:block;font-size:0.85rem;font-weight:500;color:var(--mid);margin-bottom:8px;text-align:left">Enter Approval Code</label>
+          <div class="code-input-row">
+            <input id="approvalCode" type="text" maxlength="8" placeholder="e.g. JOSE1234" style="font-size:1.1rem;letter-spacing:3px;text-transform:uppercase"/>
+            <button class="btn-primary" onclick="verifyCode()" style="white-space:nowrap;padding:12px 20px">Verify</button>
+          </div>
+          <div class="error-msg" id="codeError">❌ Invalid code. Please check and try again.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8: SUCCESS + DOWNLOAD -->
+  <div class="page" id="page8">
+    <div class="card">
+      <div class="success-page">
+        <div class="success-icon">✅</div>
+        <h2>Payment Approved!</h2>
+        <p>Thank you for your payment. Your CV is ready to download.</p>
+        <button class="download-btn" onclick="downloadCV()">⬇ Download My CV</button>
+        <div style="margin-top:1.5rem;font-size:0.82rem;color:var(--light)">
+          Having trouble? Contact us on WhatsApp: <strong>0740 087 049</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const OWNER_WHATSAPP = '254740087049';
+const CV_PRICE = 'KES 200';
+
+// Codes are created by Joseph only — never generated on the customer's device
+// Joseph receives the order via WhatsApp, verifies payment, then creates and sends the code
+
+// ── NAV BETWEEN STEPS ──────────────────────────────────────────────────
+function goTo(step) {
+  if (step > 1 && !validatePage(currentPage)) return;
+  document.getElementById('page' + currentPage).classList.remove('active');
+  document.getElementById('s' + currentPage).classList.remove('active');
+  document.getElementById('s' + currentPage).classList.add('done');
+  currentPage = step;
+  document.getElementById('page' + currentPage).classList.add('active');
+  document.getElementById('s' + currentPage).classList.remove('done');
+  document.getElementById('s' + currentPage).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+let currentPage = 1;
+
+function validatePage(p) {
+  if (p === 1) {
+    if (!v('fullName') || !v('jobTitle') || !v('phone') || !v('location')) {
+      alert('Please fill in all required fields (marked with *)'); return false;
+    }
+  }
+  if (p === 2) {
+    if (!v('objective')) { alert('Please write your career objective'); return false; }
+  }
+  if (p === 4) {
+    if (!v('skills')) { alert('Please list your key skills'); return false; }
+  }
+  return true;
+}
+
+function v(id) { return document.getElementById(id).value.trim(); }
+
+// ── DYNAMIC ENTRIES ────────────────────────────────────────────────────
+let expCount = 0, eduCount = 0, refCount = 0;
+
+function addExp() {
+  expCount++;
+  const n = expCount;
+  const el = document.createElement('div');
+  el.className = 'entry-block'; el.id = 'exp' + n;
+  el.innerHTML = `
+    <div class="entry-header">
+      <span class="entry-title">Experience ${n}</span>
+      <button class="remove-btn" onclick="removeEntry('exp${n}')">✕ Remove</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Job Title</label><input id="expTitle${n}" placeholder="e.g. Sales Executive"/></div>
+      <div class="form-group"><label>Company / Organisation</label><input id="expCompany${n}" placeholder="e.g. Safaricom PLC"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Start Date</label><input id="expStart${n}" placeholder="e.g. Jan 2022"/></div>
+      <div class="form-group"><label>End Date</label><input id="expEnd${n}" placeholder="e.g. Present"/></div>
+    </div>
+    <div class="form-group"><label>Key Responsibilities & Achievements</label>
+      <textarea id="expDesc${n}" rows="4" placeholder="• Managed a portfolio of 50+ clients&#10;• Achieved 120% of monthly sales target&#10;• Trained 3 new team members..."></textarea>
+    </div>`;
+  document.getElementById('expList').appendChild(el);
+}
+
+function addEdu() {
+  eduCount++;
+  const n = eduCount;
+  const el = document.createElement('div');
+  el.className = 'entry-block'; el.id = 'edu' + n;
+  el.innerHTML = `
+    <div class="entry-header">
+      <span class="entry-title">Education ${n}</span>
+      <button class="remove-btn" onclick="removeEntry('edu${n}')">✕ Remove</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Qualification / Degree</label><input id="eduQual${n}" placeholder="e.g. Bachelor of Commerce"/></div>
+      <div class="form-group"><label>Institution</label><input id="eduInst${n}" placeholder="e.g. University of Nairobi"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Year Completed</label><input id="eduYear${n}" placeholder="e.g. 2021"/></div>
+      <div class="form-group"><label>Grade / GPA (optional)</label><input id="eduGrade${n}" placeholder="e.g. Second Class Upper"/></div>
+    </div>`;
+  document.getElementById('eduList').appendChild(el);
+}
+
+function addRef() {
+  refCount++;
+  const n = refCount;
+  const el = document.createElement('div');
+  el.className = 'entry-block'; el.id = 'ref' + n;
+  el.innerHTML = `
+    <div class="entry-header">
+      <span class="entry-title">Referee ${n}</span>
+      <button class="remove-btn" onclick="removeEntry('ref${n}')">✕ Remove</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Full Name</label><input id="refName${n}" placeholder="e.g. Jane Wanjiku"/></div>
+      <div class="form-group"><label>Job Title</label><input id="refTitle${n}" placeholder="e.g. Branch Manager"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Organisation</label><input id="refOrg${n}" placeholder="e.g. KCB Bank"/></div>
+      <div class="form-group"><label>Phone Number</label><input id="refPhone${n}" placeholder="e.g. 0722 000 000"/></div>
+    </div>`;
+  document.getElementById('refList').appendChild(el);
+}
+
+function removeEntry(id) { const el = document.getElementById(id); if(el) el.remove(); }
+
+// Add one of each by default
+window.onload = () => { addExp(); addEdu(); addRef(); };
+
+// ── PAYMENT SUBMISSION ─────────────────────────────────────────────────
+function submitPayment() {
+  const msg = v('mpesaMsg');
+  const name = v('mpesaName');
+  if (!msg || !name) { alert('Please paste your M-Pesa confirmation message and enter your name'); return; }
+
+  const customerName = v('fullName') || name;
+  const customerPhone = v('phone') || 'Not provided';
+
+  // Store a submission ID so we know a submission happened — NO code stored here
+  const subId = Date.now().toString();
+  sessionStorage.setItem('submissionId', subId);
+  sessionStorage.setItem('cvReady', 'false');
+
+  // Build WhatsApp notification to owner — code is created by Joseph, not here
+  const waText = encodeURIComponent(
+    `🔔 *NEW CV ORDER — Jose Online Cyber Services*\n\n` +
+    `👤 *Customer Name:* ${customerName}\n` +
+    `📱 *M-Pesa Name:* ${name}\n` +
+    `📞 *Customer Phone:* ${customerPhone}\n` +
+    `💰 *Amount:* ${CV_PRICE}\n\n` +
+    `📋 *M-Pesa Confirmation:*\n${msg}\n\n` +
+    `✅ Please verify this payment, then create an approval code and send it to the customer.`
+  );
+
+  // Send notification to Joseph via WhatsApp
+  window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${waText}`, '_blank');
+
+  // Move to waiting page
+  goToPage(7);
+}
+
+function goToPage(n) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + n).classList.add('active');
+  // Update steps
+  for (let i = 1; i <= 7; i++) {
+    const s = document.getElementById('s' + i);
+    if (!s) continue;
+    s.classList.remove('active','done');
+    if (i < n) s.classList.add('done');
+    else if (i === n) s.classList.add('active');
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── CODE VERIFICATION ──────────────────────────────────────────────────
+async function verifyCode() {
+  const entered = document.getElementById('approvalCode').value.trim().toUpperCase();
+  const errEl = document.getElementById('codeError');
+  const btn = document.querySelector('#page7 .btn-primary');
+
+  if (!entered) { errEl.textContent = '❌ Please enter the code sent to you.'; errEl.style.display = 'block'; return; }
+
+  btn.textContent = 'Verifying...'; btn.disabled = true;
+
+  try {
+    const result = await window.storage.get('code:' + entered);
+    if (result && result.value === 'valid') {
+      // Mark code as used
+      await window.storage.set('code:' + entered, 'used');
+      errEl.style.display = 'none';
+      sessionStorage.setItem('cvReady', 'true');
+      goToPage(8);
+      document.getElementById('s7').classList.remove('active');
+      document.getElementById('s7').classList.add('done');
+    } else {
+      errEl.textContent = '❌ Invalid or already used code. Please check and try again.';
+      errEl.style.display = 'block';
+      btn.textContent = 'Verify'; btn.disabled = false;
+    }
+  } catch(e) {
+    errEl.textContent = '❌ Invalid code. Please check and try again.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Verify'; btn.disabled = false;
+  }
+}
+
+// ── CV DOWNLOAD ────────────────────────────────────────────────────────
+function downloadCV() {
+  if (sessionStorage.getItem('cvReady') !== 'true') {
+    alert('Please complete payment and approval first.'); return;
+  }
+
+  // Collect all data
+  const data = {
+    name: v('fullName'), title: v('jobTitle'), phone: v('phone'),
+    email: v('email'), location: v('location'), linkedin: v('linkedin'),
+    objective: v('objective'), skills: v('skills'), certs: v('certs'), languages: v('languages'),
+    experiences: [], education: [], referees: []
+  };
+
+  for (let i = 1; i <= expCount; i++) {
+    if (document.getElementById('exp'+i)) {
+      data.experiences.push({
+        title: gv('expTitle'+i), company: gv('expCompany'+i),
+        start: gv('expStart'+i), end: gv('expEnd'+i), desc: gv('expDesc'+i)
+      });
+    }
+  }
+  for (let i = 1; i <= eduCount; i++) {
+    if (document.getElementById('edu'+i)) {
+      data.education.push({
+        qual: gv('eduQual'+i), inst: gv('eduInst'+i),
+        year: gv('eduYear'+i), grade: gv('eduGrade'+i)
+      });
+    }
+  }
+  for (let i = 1; i <= refCount; i++) {
+    if (document.getElementById('ref'+i)) {
+      data.referees.push({
+        name: gv('refName'+i), title: gv('refTitle'+i),
+        org: gv('refOrg'+i), phone: gv('refPhone'+i)
+      });
+    }
+  }
+
+  const html = buildCVHTML(data);
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (data.name || 'CV').replace(/\s+/g,'_') + '_CV.html';
+  a.click();
+}
+
+function gv(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+// ── CV HTML BUILDER ────────────────────────────────────────────────────
+function buildCVHTML(d) {
+  const expHTML = d.experiences.filter(e=>e.title||e.company).map(e=>`
+    <div style="margin-bottom:1.2rem">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <strong style="color:#1A6B72;font-size:0.95rem">${e.title}</strong>
+        <span style="font-size:0.78rem;color:#888">${e.start}${e.end?' – '+e.end:''}</span>
+      </div>
+      <div style="font-size:0.85rem;color:#444;margin-bottom:0.4rem">${e.company}</div>
+      <div style="font-size:0.83rem;color:#555;white-space:pre-line;line-height:1.6">${e.desc}</div>
+    </div>`).join('');
+
+  const eduHTML = d.education.filter(e=>e.qual||e.inst).map(e=>`
+    <div style="margin-bottom:0.8rem">
+      <strong style="font-size:0.9rem;color:#1A6B72">${e.qual}</strong>
+      <div style="font-size:0.82rem;color:#555">${e.inst}${e.year?' — '+e.year:''}${e.grade?' | '+e.grade:''}</div>
+    </div>`).join('');
+
+  const refHTML = d.referees.filter(r=>r.name).map(r=>`
+    <div style="flex:1;min-width:180px">
+      <strong style="font-size:0.88rem;color:#1A6B72">${r.name}</strong>
+      <div style="font-size:0.8rem;color:#555">${r.title}</div>
+      <div style="font-size:0.8rem;color:#777">${r.org}</div>
+      <div style="font-size:0.8rem;color:#777">${r.phone}</div>
+    </div>`).join('');
+
+  const skillsList = d.skills.split(/[,\n]/).filter(s=>s.trim()).map(s=>`
+    <span style="display:inline-block;background:#E8F4F5;color:#1A6B72;border-radius:20px;padding:3px 12px;font-size:0.78rem;margin:3px">${s.trim()}</span>`).join('');
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+  <title>${d.name} — CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:#f0f0f0;padding:20px}
+    .page{max-width:794px;margin:0 auto;background:white;min-height:1123px;display:grid;grid-template-columns:220px 1fr}
+    .left{background:#E8F4F5;padding:2rem 1.2rem}
+    .right{padding:2rem 1.8rem}
+    h1{font-family:'Playfair Display',serif;font-size:1.6rem;color:#1A6B72;line-height:1.2}
+    .subtitle{font-size:0.9rem;color:#C89B3C;font-weight:500;margin-top:4px;margin-bottom:1.5rem}
+    .sec-title{font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:#1A6B72;font-weight:500;margin-bottom:0.6rem;margin-top:1.2rem;padding-bottom:4px;border-bottom:1px solid #d4e8ea}
+    .contact-item{font-size:0.8rem;color:#444;margin-bottom:0.4rem;word-break:break-all}
+    @media print{body{background:white;padding:0}.page{box-shadow:none}}
+  </style></head><body>
+  <div class="page">
+    <div class="left">
+      <h1>${d.name}</h1>
+      <div class="subtitle">${d.title}</div>
+      <div class="sec-title">Contact</div>
+      ${d.phone?`<div class="contact-item">📞 ${d.phone}</div>`:''}
+      ${d.email?`<div class="contact-item">✉ ${d.email}</div>`:''}
+      ${d.location?`<div class="contact-item">📍 ${d.location}</div>`:''}
+      ${d.linkedin?`<div class="contact-item">🔗 ${d.linkedin}</div>`:''}
+      ${d.skills?`<div class="sec-title">Core Skills</div><div>${skillsList}</div>`:''}
+      ${d.languages?`<div class="sec-title">Languages</div><div style="font-size:0.8rem;color:#444">${d.languages}</div>`:''}
+      ${d.certs?`<div class="sec-title">Certifications</div><div style="font-size:0.8rem;color:#444;white-space:pre-line">${d.certs}</div>`:''}
+    </div>
+    <div class="right">
+      ${d.objective?`<div class="sec-title">Professional Profile</div><p style="font-size:0.85rem;color:#444;line-height:1.7;margin-bottom:1rem">${d.objective}</p>`:''}
+      ${expHTML?`<div class="sec-title">Work Experience</div>${expHTML}`:''}
+      ${eduHTML?`<div class="sec-title">Education</div>${eduHTML}`:''}
+      ${refHTML?`<div class="sec-title">Referees</div><div style="display:flex;flex-wrap:wrap;gap:1.5rem">${refHTML}</div>`:''}
+      <div style="margin-top:2rem;font-size:0.7rem;color:#ccc;text-align:right">CV prepared by Jose Online Cyber Services · 0740 087 049</div>
+    </div>
+  </div>
+  </body></html>`;
+}
+<!-- ADMIN PANEL (hidden, accessed via ?admin=jose2024) -->
+<div id="adminPanel" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999">
+  <div style="background:var(--dark);border-radius:16px;padding:1.5rem;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+    <div style="font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;margin-bottom:1rem">🔐 Admin — Create Code</div>
+    <div style="margin-bottom:0.75rem">
+      <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Custom Code (or leave blank to auto-generate)</label>
+      <input id="adminCodeInput" type="text" placeholder="e.g. JOSE1234" maxlength="10" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:white;font-size:0.9rem;outline:none;text-transform:uppercase"/>
+    </div>
+    <button onclick="createCode()" style="width:100%;background:var(--teal);color:white;border:none;border-radius:8px;padding:10px;font-size:0.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:0.5rem">Generate & Save Code</button>
+    <div id="adminResult" style="font-size:0.85rem;color:var(--gold);text-align:center;margin-top:0.5rem;min-height:24px"></div>
+    <div style="margin-top:0.75rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:0.75rem">
+      <div style="color:rgba(255,255,255,0.4);font-size:0.7rem;margin-bottom:0.5rem">Recent Codes</div>
+      <div id="recentCodes" style="font-size:0.78rem;color:rgba(255,255,255,0.6)">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Show admin panel if URL has ?admin=jose2024
+if (window.location.search.includes('admin=jose2024')) {
+  document.getElementById('adminPanel').style.display = 'block';
+  loadRecentCodes();
+}
+
+async function createCode() {
+  const input = document.getElementById('adminCodeInput').value.trim().toUpperCase();
+  const code = input || 'JOSE' + Math.random().toString(36).substring(2,6).toUpperCase();
+  const resultEl = document.getElementById('adminResult');
+
+  try {
+    await window.storage.set('code:' + code, 'valid');
+    resultEl.innerHTML = `✅ Code created: <strong>${code}</strong><br/><span style="font-size:0.75rem;color:rgba(255,255,255,0.5)">Send this to the customer</span>`;
+    document.getElementById('adminCodeInput').value = '';
+    loadRecentCodes();
+  } catch(e) {
+    resultEl.textContent = '❌ Failed to save code. Try again.';
+  }
+}
+
+async function loadRecentCodes() {
+  try {
+    const keys = await window.storage.list('code:');
+    const el = document.getElementById('recentCodes');
+    if (!keys || !keys.keys || keys.keys.length === 0) { el.textContent = 'No codes yet.'; return; }
+    el.innerHTML = keys.keys.slice(-5).reverse().map(k => {
+      const code = k.replace('code:','');
+      return `<div style="padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.06)">${code}</div>`;
+    }).join('');
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
